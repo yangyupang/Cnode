@@ -1,12 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import CnodeBasis from '../views/cnode/CnodeBasis'
 
 Vue.use(VueRouter)
 
 const routes = [{
         path: '/',
         name: 'home',
+        meta: {
+            title: "登录"
+        },
         component: Home
     },
     {
@@ -17,6 +21,24 @@ const routes = [{
         // which is lazy-loaded when the route is visited.
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/About.vue')
+    },
+    {
+        path: '/cnode',
+        component: CnodeBasis,
+        children: [{
+            meta: {
+                title: '首页'
+            },
+            path: '',
+            name: 'cnode',
+            component: () =>
+                import ('../views/cnode/Cnode.vue'),
+        }]
+    },
+    {
+        path: '*',
+        component: () =>
+            import ('../views/Error.vue')
     }
 ]
 

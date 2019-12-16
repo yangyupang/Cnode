@@ -1,14 +1,14 @@
 module.exports = {
-  devServer: {
-    proxy: {
-      "/api": {
-        ws: false,
-        target: "https://api-m.mtime.cn",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api": ""
+    devServer: {
+        proxy: {
+            "/api": {
+                ws: false,
+                target: "https://cnodejs.org/api/v1/",
+                changeOrigin: true,
+                pathRewrite: {
+                    "^/api": ""
+                }
+            }
         }
-      }
     }
-  }
 }
