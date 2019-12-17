@@ -126,7 +126,7 @@ export default {
     run(val1, val2) {
       this.$router.push({
         name: "content",
-        params: {
+        query: {
           id: val1
         }
       });

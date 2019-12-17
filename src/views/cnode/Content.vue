@@ -25,7 +25,7 @@
     </el-card>
     <!-- v-html展示帖子内容 -->
     <el-card v-if="list">
-      <div v-html="list.content"></div>
+      <div v-html="list.content"  class="markdown-body"></div>
     </el-card>
     <br />
     <!-- 展示留言 -->
@@ -105,6 +105,7 @@
 </template>
 
 <script>
+// import  '../../../public/markdown.css'
 export default {
   data() {
     return {
@@ -166,7 +167,8 @@ export default {
     // }
   },
   mounted() {
-    this.id = this.$route.params.id;
+    // this.id = this.$route.params.id;
+    this.id = this.$route.query.id;
     this.getdata();
     this.times();
   },
@@ -184,9 +186,10 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+// @import '../../../public/markdown';
 .detail {
   /deep/ img {
-    width: 100% !important;
+    max-width: 100% !important;
   }
   .bg {
     background: #80bd01;

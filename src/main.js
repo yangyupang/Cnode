@@ -8,6 +8,7 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 import service from "./http"
 import dayjs from 'dayjs'
+import 'github-markdown-css'
 
 Vue.use(Vant);
 Vue.use(ElementUI);
