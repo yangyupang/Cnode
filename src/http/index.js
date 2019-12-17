@@ -5,9 +5,9 @@ import { Loading, Message } from 'element-ui'
 let loading = null
 
 
-// 判断当前环境是生产环境还是开发环�?
-// process.env.NODE_ENV的值决定当前环�?
-// production为生产环�?development为开发环�?
+// 判断当前环境是生产环境还是开发环?
+// process.env.NODE_ENV的值决定当前环?
+// production为生产环�?development为开发环?
 const isProduction = process.env.NODE_ENV === 'production'
 
 // 创建axios配置对象
@@ -18,13 +18,13 @@ service.defaults.baseURL = isProduction ? '线上接口路径' : '/api'
 
 // 超时时间
 service.defaults.timeout = 10000
-    // 请求头类�?
+    // 请求头类?
 service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
-// 请求拦截�?
+// 请求拦截?
 service.interceptors.request.use(config => {
     loading = Loading.service({
-        text: '正在加载�?.....'
+        text: '正在加载.....'
     })
     let token = localStorage.getItem('adminToken')
         // 每次请求 都在请求头带上token

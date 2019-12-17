@@ -36,6 +36,19 @@ const routes = [{
         }]
     },
     {
+        path: '/content',
+        component: CnodeBasis,
+        children: [{
+            meta: {
+                title: '首页'
+            },
+            path: '',
+            name: 'content',
+            component: () =>
+                import ('../views/cnode/Content.vue'),
+        }]
+    },
+    {
         path: '*',
         component: () =>
             import ('../views/Error.vue')
