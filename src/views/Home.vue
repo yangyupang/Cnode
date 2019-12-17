@@ -14,7 +14,7 @@
             <el-input type="password" placeholder="请确认密码" v-model="ruleForm.checkPass"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="go('/cnode')" class="go">立即登录</el-button>
+            <el-button type="primary" @click="go('/cnode')" :plain="true" class="go">立即登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -69,12 +69,17 @@ export default {
   components: {},
   methods: {
     go(data) {
-      this.$store.state.username =this.ruleForm.userName;
+      this.$store.state.username = this.ruleForm.userName;
       this.$store.state.pass = this.ruleForm.pass;
-      localStorage.setItem("user",this.ruleForm.userName);
-      localStorage.setItem("pass",this.ruleForm.pass);
-      this.ruleForm.userName = this.ruleForm.pass = this.ruleForm.checkPass = "";
+      localStorage.setItem("user", this.ruleForm.userName);
+      localStorage.setItem("pass", this.ruleForm.pass);
+      this.ruleForm.userName = this.ruleForm.pass = this.ruleForm.checkPass =
+        "";
       this.$router.push(data);
+      this.$message({
+        message: "恭喜你登录成功",
+        type: "success"
+      });
     }
   },
   mounted() {},
@@ -98,7 +103,7 @@ export default {
   border: 1px solid rgb(167, 163, 163);
   margin: 0 auto;
   position: relative;
-  top: 250px;
+  top: 160px;
   box-shadow: 2px 2px 30px 2px rgb(167, 163, 163);
 }
 .login-top {

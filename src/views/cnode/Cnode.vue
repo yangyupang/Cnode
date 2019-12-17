@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 中间内容(全部,精华,分析,问答...) -->
     <div class="header">
       <a href="#" class="topic-tab" :class="{currentTab :num ===1}" @click="change(1)">全部</a>
       <a href="#" class="topic-tab" :class="{currentTab :num ===2}" @click="change(2)">精华</a>
@@ -8,29 +9,35 @@
       <a href="#" class="topic-tab" :class="{currentTab :num ===5}" @click="change(5)">招聘</a>
       <a href="#" class="topic-tab" :class="{currentTab :num ===6}" @click="change(6)">客户端测试</a>
     </div>
+    <!-- 循环填充获取到的数据 展示在页面内-->
     <div>
       <div class="details" v-for="(item,index) in arr[currentPage-1]" :key="index">
+        <!-- 作者头像 -->
         <div>
           <img :src="item.author.avatar_url" alt />
         </div>
+        <!-- 回复人数/浏览次数 -->
         <div>{{item.reply_count}}/{{item.visit_count}}</div>
+        <!-- 帖子类型 -->
         <div>
           <span v-if="item.top === true" class="bg">置顶</span>
           <span v-else-if="item.tab === 'share'" class="bg1">分享</span>
           <span v-else-if="item.tab === 'ask'" class="bg1">问答</span>
           <span v-else-if="item.good === true" class="bg">精华</span>
         </div>
+        <!-- 帖子标题 -->
         <div @click="run(item.id,item.author.loginname)">
           <a>{{item.title}}</a>
         </div>
+        <!-- 帖子最后一个回复人和回复时间 -->
         <div>{{times(item.last_reply_at)}}</div>
       </div>
     </div>
+    <!-- 分页方法 -->
     <div class="block">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :hide-on-single-page="value"
         :current-page="currentPage"
         :page-sizes="[10, 20, 30, 40]"
         :page-size="pageSize"
@@ -46,11 +53,15 @@ import Pagination from "../../components/cnode/Pagination";
 export default {
   data() {
     return {
+      //确认点击的哪一项,方便添加样式
       num: 1,
+      //用于接收接口获取到的数据
       list: [],
+      //分页时显示的第几页
       currentPage: 1,
-      value: false,
+      //每一页有多少条数据
       pageSize: 10,
+      //
       arr: []
     };
   },
@@ -58,9 +69,11 @@ export default {
     Pagination
   },
   methods: {
+    //中间内容(全部,精华,分析,问答...)点击改变样式
     change(data) {
       this.num = data;
     },
+    //求帖子最后一个回复人的回复时间
     times(oldtime) {
       let nowtime = new Date();
       // valueOf是转换成时间戳
@@ -77,11 +90,13 @@ export default {
         return parseInt(minu) + "分钟前";
       }
     },
+    //获取到topics(话题)的数据 40条
     getdata() {
       this.$axios
         .req("topics")
         .then(res => {
           this.list = res.data;
+
           this.paging();
           // console.log(res.data);
         })
@@ -89,21 +104,25 @@ export default {
           console.log(err);
         });
     },
+    //每一页有多少条数据
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
       this.pageSize = val;
       this.paging();
     },
+    //当前是第几页
     handleCurrentChange(val) {
       // console.log(`当前页: ${val}`);
       this.currentPage = Number(val);
     },
+    //获取每一页要展示多少条数据
     paging() {
       this.arr = [];
       for (let i = 0; i < this.list.length; i += this.pageSize) {
         this.arr.push(this.list.slice(i, i + this.pageSize));
       }
     },
+    //带参传值 将用户点击的话题对应的id传到详情页
     run(val1, val2) {
       this.$router.push({
         name: "content",
@@ -111,7 +130,8 @@ export default {
           id: val1
         }
       });
-      this.$store.state.loginname = val2;
+      localStorage.setItem("loginname",val2);
+      // this.$store.state.loginname = val2;
     }
   },
   mounted() {
@@ -120,6 +140,9 @@ export default {
   },
   watch: {},
   computed: {
+    // loginname() {
+    //   return this.$store.state.loginname;
+    // }
   },
   filters: {}
 };
@@ -133,6 +156,7 @@ export default {
   line-height: 40px;
   padding: 10px;
   a {
+    // 中间内容(全部,精华,分析,问答...) 移入变蓝
     &:hover {
       color: rgb(128, 209, 247);
     }
@@ -147,6 +171,7 @@ export default {
   }
 }
 .currentTab {
+  // 中间内容(全部,精华,分析,问答...) 点击加绿色背景字体变白
   background-color: #80bd01;
   color: #fff !important;
   padding: 3px 4px;
@@ -156,6 +181,7 @@ export default {
   display: flex;
   margin: 10px 0;
   div {
+    //作者头像
     &:nth-child(1) {
       width: 30px;
       height: 30px;
@@ -163,6 +189,7 @@ export default {
         width: 30px;
       }
     }
+    //回复人数/浏览次数
     &:nth-child(2) {
       height: 30px;
       width: 10%;
@@ -170,11 +197,13 @@ export default {
       margin: 0 10px;
       font-size: 14px;
     }
+    //帖子类型
     &:nth-child(3) {
       margin-right: 30px;
       height: 30px;
       line-height: 30px;
     }
+    //帖子标题,超过长度后用。。。表示
     &:nth-child(4) {
       width: 70%;
       height: 30px;
@@ -183,12 +212,14 @@ export default {
       text-overflow: ellipsis;
       overflow: hidden;
     }
+    //帖子最后一个回复人的回复时间
     &:nth-child(5) {
       height: 30px;
       line-height: 30px;
     }
   }
 }
+//帖子类型 精华 置顶背景为绿色
 .bg {
   background: #80bd01;
   padding: 2px 4px;
@@ -203,6 +234,7 @@ export default {
   border-radius: 3px;
   font-size: 12px;
 }
+//分页条的位置
 .block {
   margin-left: 20%;
   margin-top: 30px;

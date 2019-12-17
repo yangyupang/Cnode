@@ -1,6 +1,7 @@
 <template>
   <div class="detail">
     <el-card>
+      <!-- 帖子状态（置顶，分享，问答，精华） -->
       <div class="top">
         <span v-if="list.top === true" class="bg">置顶</span>
         <span v-else-if="list.tab === 'share'" class="bg1">分享</span>
@@ -8,6 +9,7 @@
         <span v-else-if="list.good === true" class="bg">精华</span>
         <span class="fs">{{list.title}}</span>
       </div>
+      <!-- 帖子发布时间 作者 浏览次数 来自类型 -->
       <div class="desc" v-if="list.author">
         <div class="item">
           <span>发布于{{times(list.create_at)}}</span>
@@ -21,15 +23,48 @@
         </div>
       </div>
     </el-card>
+    <!-- v-html展示帖子内容 -->
     <el-card v-if="list">
       <div v-html="list.content"></div>
     </el-card>
     <br />
+    <!-- 展示留言 -->
     <el-card class="el__card__header" v-if="list">
       <div slot="header">
         <div class="reply">{{list.reply_count}} 回复</div>
       </div>
-      <div v-for="(item, index) in newlist[currentPage-1]" :key="item.id" class>
+            <div v-for="(item, index) in list.replies" :key="item.id" class>
+        <div class="content">
+          <!-- 留言者头像 -->
+          <div class="c-img">
+            <img :src="item.author.avatar_url" alt />
+          </div>
+          <!-- 留言者名字 -->
+          <div>
+            <span>{{item.author.loginname}}</span>
+          </div>
+          <!-- 第几楼 -->
+          <div>
+            <span>{{index + 1}}楼</span>
+            <span>·</span>
+          </div>
+          <!-- 回复时间 -->
+          <div>
+            <span>{{times(list.create_at)}}</span>
+          </div>
+          <!-- 点赞 -->
+          <div v-if="item.ups.length >0">
+            <img src="../../assets/image/ups.svg" alt />
+            <span>{{item.ups.length}}</span>
+          </div>
+        </div>
+        <!-- 回复内容 -->
+        <div class="replyContent" v-if="list.reply_count > 0">
+          <div v-html="item.content"></div>
+        </div>
+        <div class="line"></div>
+      </div>
+      <!-- <div v-for="(item, index) in newlist[currentPage-1]" :key="item.id" class>
         <div class="content">
           <div class="c-img">
             <img :src="item.author.avatar_url" alt />
@@ -53,9 +88,9 @@
           <div v-html="item.content"></div>
         </div>
         <div class="line"></div>
-      </div>
+      </div> -->
     </el-card>
-    <div class="block" v-if="list.replies">
+    <!-- <div class="block" v-if="list.replies">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -65,7 +100,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="list.replies.length"
       ></el-pagination>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -87,7 +122,7 @@ export default {
         .req(`topic/${this.id}`)
         .then(res => {
           this.list = res.data;
-          this.paging();
+          // this.paging();
           // console.log(res.data);
         })
         .catch(err => {
@@ -113,22 +148,22 @@ export default {
         return parseInt(minu) + "分钟前";
       }
     },
-    handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
-      this.pageSize = val;
-      this.paging();
-    },
-    handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
-      this.currentPage = Number(val);
-    },
-    paging() {
-      this.newlist = [];
-      for (let i = 0; i < this.list.replies.length; i += this.pageSize) {
-        this.newlist.push(this.list.replies.slice(i, i + this.pageSize));
-      }
-      // console.log(this.newlist);
-    }
+    // handleSizeChange(val) {
+    //   // console.log(`每页 ${val} 条`);
+    //   this.pageSize = val;
+    //   this.paging();
+    // },
+    // handleCurrentChange(val) {
+    //   // console.log(`当前页: ${val}`);
+    //   this.currentPage = Number(val);
+    // },
+    // paging() {
+    //   this.newlist = [];
+    //   for (let i = 0; i < this.list.replies.length; i += this.pageSize) {
+    //     this.newlist.push(this.list.replies.slice(i, i + this.pageSize));
+    //   }
+    //   // console.log(this.newlist);
+    // }
   },
   mounted() {
     this.id = this.$route.params.id;

@@ -1,16 +1,20 @@
 <template>
   <div class="el__header el__footer bg">
     <el-container>
+      <!-- 首页头部 -->
       <el-header>
         <div class="header">
           <div class="header-content">
+            <!-- logo图标 -->
             <a href="/cnode" class="brand">
               <img src="../../assets/image/cnodejs_light.svg" alt />
             </a>
+            <!-- 搜索框 -->
             <div class="search">
               <img src="../../assets/image/search.svg" alt />
               <input type="text" class="search-query" />
             </div>
+            <!-- 右边几个选择项（首页，新手入门。。。） -->
             <ul class="pull-right">
               <li>
                 <a href="/cnode">首页</a>
@@ -34,14 +38,28 @@
           </div>
         </div>
       </el-header>
+      <!-- 中间内容  -->
       <el-container>
+        <!-- 首页主要内容挂在处 -->
         <el-main>
           <div class="mian">
             <router-view />
           </div>
         </el-main>
+        <!-- 首页侧边栏 -->
         <el-aside width="385px">
-          <div class="aside log" v-if="username === '' ">
+          <!-- 登录过后个人信息展示 -->
+          <div class="aside log" v-if="this.username">
+            <div class="author">
+              <span>个人信息</span>
+            </div>
+            <div>用户名:{{username}}</div>
+            <div>积分:0</div>
+            <div>"这家伙很懒啥也没留下"</div>
+            <el-button type="primary" @click="exit">点击退出</el-button>
+          </div>
+          <!-- 未登录时登录窗口 -->
+          <div class="aside log" v-else>
             <p>CNode：Node.js专业中文社区</p>
             <div>
               <div>
@@ -50,23 +68,17 @@
                 <a href="/">注册</a>，也可以
               </div>
               <div>
-                <el-button type="primary">点击登录</el-button>
+                <el-button type="primary" @click="go('/')">点击登录</el-button>
               </div>
             </div>
           </div>
-          <div class="aside log" v-else>
-            <div class="author">
-              <span>个人信息</span>
-            </div>
-            <div>用户名:{{username}}</div>
-            <div>积分:0</div>
-            <div>"这家伙很懒啥也没留下"</div>
-          </div>
+          <!-- 侧边栏广告 -->
           <div class="aside">
             <img src="../../assets/image/Detailpage-aside1.jpg" alt />
             <img src="../../assets/image/Detailpage-aside2.jpg" alt />
             <img src="../../assets/image/Detailpage-aside3.jpg" alt />
           </div>
+          <!-- 无人回复的话题 -->
           <div class="aside">
             <div class="topic">
               <span>无人回复的话题</span>
@@ -91,6 +103,7 @@
               </ul>
             </div>
           </div>
+          <!-- 积分排行榜 -->
           <div class="aside">
             <div class="ranking">
               <span>积分榜 TOP 100 >></span>
@@ -166,6 +179,7 @@
               </ul>
             </div>
           </div>
+          <!-- 友情社区 -->
           <div class="aside">
             <div class="community">
               <span>友情社区</span>
@@ -185,6 +199,7 @@
               </li>
             </ul>
           </div>
+          <!-- 二维码 -->
           <div class="aside">
             <div class="client">
               <span>客户端二维码</span>
@@ -195,6 +210,7 @@
           </div>
         </el-aside>
       </el-container>
+      <!-- 底部 -->
       <el-footer>
         <div class="footer">
           <div>RSS | 源码地址</div>
@@ -211,29 +227,56 @@
         </div>
       </el-footer>
     </el-container>
-
+    <!-- 返回顶部 -->
+    <BackTop></BackTop>
   </div>
 </template>
 
 <script>
+import BackTop from "../../components/cnode/BackTop";
 export default {
   data() {
     return {
-      username: ""
+      username: "",
+      loginname: ""
     };
   },
-  components: {},
-  methods: {},
-  mounted() {
-    this.username = localStorage.getItem("user");
-    this.loginname;
-  },
-  watch: {},
-  computed: {
-    loginname() {
-      return this.$store.state.loginname;
+  components: { BackTop },
+  methods: {
+    //点击登录 跳转到登录页面
+    go(data) {
+      this.$router.push(data);
+    },
+    //点击退出 
+    exit() {
+      this.$confirm("是否退出登录?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })//点击确定后清空localStorage 
+        .then(() => {
+          (this.username = ""),
+            localStorage.removeItem("user"),
+            this.$message({
+              type: "success",
+              message: "退出成功!"
+            });
+        })//点击取消不做任何操作
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消退出"
+          });
+        });
     }
   },
+  mounted() {
+    //获取到localStorage中的值
+    this.username = localStorage.getItem("user");
+    this.loginname = localStorage.getItem("loginname");
+  },
+  watch: {},
+  computed: {},
   filters: {}
 };
 </script>
@@ -243,10 +286,12 @@ export default {
   background-color: rgb(226, 219, 219);
 }
 .header {
+  //顶部
   background-color: #000;
   height: 50px;
   display: flex;
   justify-content: center;
+   // logo图标
   .header-content {
     width: 90%;
     display: flex;
@@ -256,6 +301,7 @@ export default {
       height: 34px;
       line-height: 34px;
     }
+    //搜索
     .search {
       margin-top: 10px;
       display: flex;
@@ -277,6 +323,7 @@ export default {
         }
       }
     }
+    //右边几个选择项（首页，新手入门。。。）
     .pull-right {
       position: absolute;
       right: 75px;
@@ -295,11 +342,13 @@ export default {
     }
   }
 }
+//中间数据留白处
 .mian {
   width: 100%;
   border-radius: 5px;
   background-color: white;
 }
+//侧边栏
 .aside {
   width: 75%;
   background-color: white;
@@ -365,7 +414,6 @@ export default {
   }
 }
 .log {
-  height: 120px;
   line-height: 2em;
   p {
     margin: 0 0 10px;
