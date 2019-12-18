@@ -14,16 +14,16 @@
       <div class="details" v-for="(item,index) in arr[currentPage-1]" :key="index">
         <!-- 作者头像 -->
         <div>
-          <img :src="item.author.avatar_url" alt />
+          <img :src="item.author.avatar_url" :alt="item.author.loginname"  :title="item.author.loginname"/>
         </div>
         <!-- 回复人数/浏览次数 -->
         <div>{{item.reply_count}}/{{item.visit_count}}</div>
         <!-- 帖子类型 -->
         <div>
           <span v-if="item.top === true" class="bg">置顶</span>
+          <span v-else-if="item.good === true" class="bg">精华</span>
           <span v-else-if="item.tab === 'share'" class="bg1">分享</span>
           <span v-else-if="item.tab === 'ask'" class="bg1">问答</span>
-          <span v-else-if="item.good === true" class="bg">精华</span>
         </div>
         <!-- 帖子标题 -->
         <div @click="run(item.id,item.author.loginname)">
@@ -211,6 +211,12 @@ export default {
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      a {
+        &:hover{
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
     }
     //帖子最后一个回复人的回复时间
     &:nth-child(5) {

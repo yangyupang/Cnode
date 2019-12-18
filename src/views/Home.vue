@@ -73,13 +73,17 @@ export default {
       this.$store.state.pass = this.ruleForm.pass;
       localStorage.setItem("user", this.ruleForm.userName);
       localStorage.setItem("pass", this.ruleForm.pass);
-      this.ruleForm.userName = this.ruleForm.pass = this.ruleForm.checkPass =
-        "";
-      this.$router.push(data);
-      this.$message({
-        message: "恭喜你登录成功",
-        type: "success"
-      });
+      if (this.ruleForm.userName !== "" && this.ruleForm.pass !== "") {
+        this.$router.push(data);
+        this.$message({
+          message: "恭喜你登录成功",
+          type: "success"
+        });
+      } else if (this.ruleForm.userName === "" && this.ruleForm.pass === "") {
+        this.$message.error("密码和用户名不能为空");
+        this.ruleForm.userName = this.ruleForm.pass = this.ruleForm.checkPass =
+          "";
+      }
     }
   },
   mounted() {},

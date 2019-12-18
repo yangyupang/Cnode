@@ -4,8 +4,6 @@
       <!-- 帖子状态（置顶，分享，问答，精华） -->
       <div class="top">
         <span v-if="list.top === true" class="bg">置顶</span>
-        <span v-else-if="list.tab === 'share'" class="bg1">分享</span>
-        <span v-else-if="list.tab === 'ask'" class="bg1">问答</span>
         <span v-else-if="list.good === true" class="bg">精华</span>
         <span class="fs">{{list.title}}</span>
       </div>
@@ -25,7 +23,7 @@
     </el-card>
     <!-- v-html展示帖子内容 -->
     <el-card v-if="list">
-      <div v-html="list.content"  class="markdown-body"></div>
+      <div v-html="list.content" class="markdown-body"></div>
     </el-card>
     <br />
     <!-- 展示留言 -->
@@ -33,11 +31,11 @@
       <div slot="header">
         <div class="reply">{{list.reply_count}} 回复</div>
       </div>
-            <div v-for="(item, index) in list.replies" :key="item.id" class>
+      <div v-for="(item, index) in list.replies" :key="item.id" class>
         <div class="content">
           <!-- 留言者头像 -->
           <div class="c-img">
-            <img :src="item.author.avatar_url" alt />
+            <img :src="item.author.avatar_url" alt :title="item.author.loginname"/>
           </div>
           <!-- 留言者名字 -->
           <div>
@@ -88,7 +86,7 @@
           <div v-html="item.content"></div>
         </div>
         <div class="line"></div>
-      </div> -->
+      </div>-->
     </el-card>
     <!-- <div class="block" v-if="list.replies">
       <el-pagination
@@ -100,7 +98,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="list.replies.length"
       ></el-pagination>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
@@ -148,7 +146,7 @@ export default {
       } else if (hours < 1) {
         return parseInt(minu) + "分钟前";
       }
-    },
+    }
     // handleSizeChange(val) {
     //   // console.log(`每页 ${val} 条`);
     //   this.pageSize = val;

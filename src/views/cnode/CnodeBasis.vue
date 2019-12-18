@@ -40,7 +40,7 @@
       </el-header>
       <!-- 中间内容  -->
       <el-container>
-        <!-- 首页主要内容挂在处 -->
+        <!-- 首页主要内容挂载处 -->
         <el-main>
           <div class="mian">
             <router-view />
@@ -58,6 +58,9 @@
             <div>"这家伙很懒啥也没留下"</div>
             <el-button type="primary" @click="exit">点击退出</el-button>
           </div>
+          <!-- <div class="aside log" v-if="this.loginname">
+            dddd
+          </div> -->
           <!-- 未登录时登录窗口 -->
           <div class="aside log" v-else>
             <p>CNode：Node.js专业中文社区</p>
