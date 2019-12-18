@@ -12,10 +12,11 @@
     <!-- 循环填充获取到的数据 展示在页面内-->
     <div>
       <div class="details" v-for="(item,index) in arr[currentPage-1]" :key="index">
-        <!-- 作者头像 -->
         <div>
-          <img :src="item.author.avatar_url" :alt="item.author.loginname"  :title="item.author.loginname"/>
+          <!-- 作者头像 存在时-->
+          <img :src="item.author.avatar_url" onerror="onerror=null;src='../../assets/image/default.png'" alt :title="item.author.loginname"/>
         </div>
+
         <!-- 回复人数/浏览次数 -->
         <div>{{item.reply_count}}/{{item.visit_count}}</div>
         <!-- 帖子类型 -->
@@ -130,7 +131,7 @@ export default {
           id: val1
         }
       });
-      localStorage.setItem("loginname",val2);
+      localStorage.setItem("loginname", val2);
       // this.$store.state.loginname = val2;
     }
   },
@@ -212,7 +213,7 @@ export default {
       text-overflow: ellipsis;
       overflow: hidden;
       a {
-        &:hover{
+        &:hover {
           cursor: pointer;
           text-decoration: underline;
         }
