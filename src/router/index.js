@@ -40,7 +40,7 @@ const routes = [{
         component: CnodeBasis,
         children: [{
             meta: {
-                title: '首页'
+                title: '详情'
             },
             path: '',
             name: 'content',

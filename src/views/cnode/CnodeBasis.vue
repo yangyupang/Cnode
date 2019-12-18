@@ -60,7 +60,7 @@
           </div>
           <!-- <div class="aside log" v-if="this.loginname">
             dddd
-          </div> -->
+          </div>-->
           <!-- 未登录时登录窗口 -->
           <div class="aside log" v-else>
             <p>CNode：Node.js专业中文社区</p>
@@ -231,7 +231,7 @@
       </el-footer>
     </el-container>
     <!-- 返回顶部 -->
-    <BackTop></BackTop>
+    <!-- <BackTop></BackTop> -->
   </div>
 </template>
 
@@ -250,13 +250,13 @@ export default {
     go(data) {
       this.$router.push(data);
     },
-    //点击退出 
+    //点击退出
     exit() {
       this.$confirm("是否退出登录?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })//点击确定后清空localStorage 
+      }) //点击确定后清空localStorage
         .then(() => {
           (this.username = ""),
             localStorage.removeItem("user"),
@@ -264,7 +264,7 @@ export default {
               type: "success",
               message: "退出成功!"
             });
-        })//点击取消不做任何操作
+        }) //点击取消不做任何操作
         .catch(() => {
           this.$message({
             type: "info",
@@ -294,7 +294,7 @@ export default {
   height: 50px;
   display: flex;
   justify-content: center;
-   // logo图标
+  // logo图标
   .header-content {
     width: 90%;
     display: flex;
@@ -328,8 +328,8 @@ export default {
     }
     //右边几个选择项（首页，新手入门。。。）
     .pull-right {
-      position: absolute;
-      right: 75px;
+      position: relative;
+      left: 48%;
       display: flex;
       font-size: 13px;
       li {

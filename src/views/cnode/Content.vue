@@ -51,7 +51,7 @@
             <span>{{times(list.create_at)}}</span>
           </div>
           <!-- 点赞 -->
-          <div v-if="item.ups.length >0">
+          <div v-if="item.ups.length >0" class="ups">
             <img src="../../assets/image/ups.svg" alt />
             <span>{{item.ups.length}}</span>
           </div>
@@ -241,6 +241,7 @@ export default {
   .content {
     display: flex;
     align-items: center;
+    position: relative;
     div {
       &:nth-child(2) {
         span {
@@ -256,12 +257,17 @@ export default {
           }
         }
       }
-      &:nth-child(5) {
+      .ups {
         display: flex;
         position: absolute;
         left: 70%;
       }
     }
+    .ups {
+        display: flex;
+        position: absolute;
+        right: 20px;
+      }
     .c-img {
       width: 30px;
       height: 30px;
