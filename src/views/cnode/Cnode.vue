@@ -84,11 +84,11 @@ export default {
       let hours = time / (60 * 60 * 1000);
       let minu = time / (60 * 1000);
       if (days >= 1) {
-        return parseInt(days) + "天前";
+        return Math.ceil(days) + "天前";
       } else if (days < 1 && hours >= 1) {
-        return parseInt(hours) + "小时前";
+        return Math.floor(hours) + "小时前";
       } else if (hours < 1) {
-        return parseInt(minu) + "分钟前";
+        return Math.ceil(minu) + "分钟前";
       }
     },
     //获取到topics(话题)的数据 40条
