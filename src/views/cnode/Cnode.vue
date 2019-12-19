@@ -11,7 +11,7 @@
     </div>
     <!-- 循环填充获取到的数据 展示在页面内-->
     <div>
-      <div class="details" v-for="(item,index) in arr[currentPage-1]" :key="index">
+      <div class="details" v-for="(item,index) in list.slice((currentPage-1)*pageSize,pageSize*currentPage)" :key="index">
         <div>
           <!-- 作者头像 存在时-->
           <img :src="item.author.avatar_url" onerror="onerror=null;src='../../assets/image/default.png'" alt :title="item.author.loginname"/>
@@ -63,7 +63,7 @@ export default {
       //每一页有多少条数据
       pageSize: 10,
       //
-      arr: []
+      // arr: []
     };
   },
   components: {
@@ -97,8 +97,7 @@ export default {
         .req("topics")
         .then(res => {
           this.list = res.data;
-
-          this.paging();
+          // this.paging();
           // console.log(res.data);
         })
         .catch(err => {
@@ -109,7 +108,7 @@ export default {
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
       this.pageSize = val;
-      this.paging();
+      // this.paging();
     },
     //当前是第几页
     handleCurrentChange(val) {
@@ -117,12 +116,12 @@ export default {
       this.currentPage = Number(val);
     },
     //获取每一页要展示多少条数据
-    paging() {
-      this.arr = [];
-      for (let i = 0; i < this.list.length; i += this.pageSize) {
-        this.arr.push(this.list.slice(i, i + this.pageSize));
-      }
-    },
+    // paging() {
+    //   this.arr = [];
+    //   for (let i = 0; i < this.list.length; i += this.pageSize) {
+    //     this.arr.push(this.list.slice(i, i + this.pageSize));
+    //   }
+    // },
     //带参传值 将用户点击的话题对应的id传到详情页
     run(val1, val2) {
       this.$router.push({
@@ -131,7 +130,7 @@ export default {
           id: val1
         }
       });
-      localStorage.setItem("loginname", val2);
+      // localStorage.setItem("loginname", val2); 
       // this.$store.state.loginname = val2;
     }
   },

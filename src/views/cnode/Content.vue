@@ -1,5 +1,5 @@
 <template>
-  <div class="detail">
+  <div class="detail markdown-body">
     <el-card>
       <!-- 帖子状态（置顶，分享，问答，精华） -->
       <div class="top">
@@ -133,7 +133,7 @@ export default {
       // valueOf是转换成时间戳
       let time =
         this.$dayjs(nowtime).valueOf() - this.$dayjs(oldtime).valueOf();
-      let month = time / (30 * 24 * 60 * 60 * 1000);
+      let month = this.$dayjs(time).month()
       let days = time / (24 * 60 * 60 * 1000);
       let hours = time / (60 * 60 * 1000);
       let minu = time / (60 * 1000);
